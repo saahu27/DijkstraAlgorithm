@@ -144,9 +144,10 @@ def Dijkstra_algorithm(start_node, goal_node,obstacle_map):
 	if is_goal(start_node, goal_node):
 		return None,1
 	goal_node = goal_node
+	start_node = start_node
 	actions = ['Left', 'Right','Up','Down','UpRight','UpLeft','DownRight','DownLeft']
 	open_nodes = {}
-	open_nodes[(start_node.x + start_node.y)* 500] = start_node
+	open_nodes[(start_node.x * 500+ start_node.y)] = start_node
 	closed_nodes = {}
 	open_nodes_list = []  #this is also a opennode, created for use in while loop
 	all_nodes = []
@@ -156,7 +157,7 @@ def Dijkstra_algorithm(start_node, goal_node,obstacle_map):
 
 		current_node = (heapq.heappop(open_nodes_list))[1]
 		all_nodes.append([current_node.x, current_node.y])
-		current_id = (current_node.x + current_node.y) * 500
+		current_id = (current_node.x * 500 + current_node.y) 
 
 		if is_goal(current_node, goal_node):
 			goal_node.parent_id = current_node.parent_id
@@ -176,9 +177,9 @@ def Dijkstra_algorithm(start_node, goal_node,obstacle_map):
 
 			new_node = Node(x,y,cost,current_node)  #currentnode or currentnode id check
 
-			new_node_id = (new_node.x + new_node.y) * 500
+			new_node_id = (new_node.x * 500+ new_node.y) 
 
-			if is_valid(new_node.x, new_node.y, obstacle_map) == False:
+			if not is_valid(new_node.x, new_node.y, obstacle_map):
 				continue
 			elif new_node_id in closed_nodes:
 				continue
@@ -232,10 +233,6 @@ def plot(obstacle_map,x_path,y_path,all_nodes):
 
 if __name__ == '__main__':
 
-	# radius = input("Enter Robot radius: ")
-	# clearance = input("Enter clearance value: ")
-	# radius = int(radius)
-	# clearance = int(clearance)
 	width = 400
 	height = 250
 	obstacle_map = ObstacleMap(width, height)
@@ -245,7 +242,7 @@ if __name__ == '__main__':
 	start_x = int(start_x)
 	start_y = int(start_y)
 	if not is_valid(start_x, start_y, obstacle_map):
-		print("INVALID start node.")
+		print("In valid start node")
 		exit(-1)
 	
 	goal_coordinates = input("Enter start coordinates: ")
@@ -253,14 +250,14 @@ if __name__ == '__main__':
 	goal_x = int(goal_x)
 	goal_y = int(goal_y)
 	if not is_valid(goal_x, goal_y, obstacle_map):
-		print("INVALID goal node.")
+		print("In valid goal node.")
 		exit(-1)
 	
 	start_node = Node(start_x, start_y, 0.0, -1)
 	goal_node = Node(goal_x, goal_y, 0.0, -1)
 	all_nodes,flag = Dijkstra_algorithm(start_node, goal_node,obstacle_map)
 
-	if (flag):
+	if (flag)==1:
 		x_path,y_path = Generate_Path(goal_node)
 	else:
 		print("not found")
