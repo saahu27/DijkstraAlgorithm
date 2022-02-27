@@ -17,6 +17,7 @@ def ObstacleMap():
     obs_map = np.zeros((300,200))
     for x in range (0,300):    
         for y in range(0,200):
+            
             #l1= 13*x - y - 140
             #l2= y - 185
             #l3= 7*x + 5*y - 1450
@@ -247,10 +248,6 @@ def main():
             #plt.show()
             #pylab.savfig('result.png')
         
-
-
-
-
 
 
 if __name__ == '__main__':
