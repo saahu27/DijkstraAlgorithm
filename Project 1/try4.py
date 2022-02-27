@@ -243,8 +243,7 @@ def plot(plot_x,plot_y,start_node,goal_node,x_path,y_path,all_nodes):
 
 	for i in range(len(all_nodes)):
 		plt.plot(all_nodes[i][0], all_nodes[i][1], "3c")
-		plt.pause(0.00000000000000000000000000000000000001)
-
+		# plt.pause(0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001)
 
 	plt.plot(x_path,y_path,"-r")
 	plt.show()
@@ -282,7 +281,6 @@ if __name__ == '__main__':
 	else:
 		print("not found")
 		exit(-1)
-	# plot(obstacle_map,x_path,y_path,all_nodes)
 
 	plot(plot_x,plot_y,start_node,goal_node,x_path,y_path,all_nodes)
 	
