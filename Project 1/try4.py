@@ -88,10 +88,13 @@ def Next_Node(move,x,y,cost):
 	else:
 		return None
 
+
 def ObstacleMap(width,height):
 
 	# obstacle_map = np.full((width,height),np.inf)
 	obstacle_map = np.zeros((width,height))
+	plot_x = []
+	plot_y =[]
 
 	for x in range(0,width) :
 		for y in range(0,height):
@@ -111,9 +114,28 @@ def ObstacleMap(width,height):
 			h4 = y - 0.577*x + 55.82 
 
 			if (l1<0 and l2>0 and l3<0 and l4>0) or (c<=0) or (h1<0 and h2<0 and h3<0 and h6>0 and h5>0 and h4>0):
-				obstacle_map[x][y] = -1
+				obstacle_map[x][y] = 1
+				plot_x.append(x)
+				plot_y.append(y)
 
-	return obstacle_map
+	for i in range(400):
+		obstacle_map[i][0] = 1
+		plot_x.append(i)
+		plot_y.append(0)
+	for i in range(400):
+		obstacle_map[i][249] = 1
+		plot_x.append(i)
+		plot_y.append(250)
+	for i in range(250):
+		obstacle_map[0][i] = 1
+		plot_x.append(0)
+		plot_y.append(i)
+	for i in range(250):
+		obstacle_map[399][i] = 1
+		plot_x.append(400)
+		plot_y.append(i)
+
+	return obstacle_map,plot_x, plot_y
 
 
 def is_goal(current, goal):
@@ -133,7 +155,7 @@ def is_valid(x, y, obstacle_map):
 	
 	else:
 		try:
-			if(obstacle_map[x][y] == -1):
+			if(obstacle_map[x][y] == 1):
 				return False
 		except:
 			pass
@@ -210,32 +232,30 @@ def Generate_Path(goal_node):
 	return x_path,y_path
 
 
-def plot(obstacle_map,x_path,y_path,all_nodes):
+def plot(plot_x,plot_y,start_node,goal_node,x_path,y_path,all_nodes):
 
-	obstacle_map = obstacle_map.astype(np.uint8)*255
-	obstacle_map = np.dstack([obstacle_map, obstacle_map, obstacle_map])
-	obstacle_map = cv2.flip(obstacle_map, 0)
-	for i in range(len(all_nodes)):
-		obstacle_map[251 - int(all_nodes[i][1]), int(all_nodes[i][0]), 0:3] = 251
-		obstacle_map[251 - int(all_nodes[i][1]), int(all_nodes[i][0]), 0:3].astype(np.uint8)
-		cv2.imshow("image", obstacle_map)
-		cv2.waitKey(1)
-	
+	plt.plot(plot_x,plot_y,".k")
+	plt.plot(start_node.x, start_node.y, "Dw")
+	plt.plot(goal_node.x, goal_node.y, "Dg")
+
 	x_path.reverse()
 	y_path.reverse()
-	
-	for i in range(len(x_path)):
 
-		obstacle_map[201 - int(y_path[i]), int(x_path[i]), 0:3] = (255, 0,0)
-		obstacle_map[201 - int(y_path[i]), int(x_path[i]), 0:3].astype(np.uint8)
-		cv2.imshow("image", obstacle_map)
-		cv2.waitKey(0)
+	for i in range(len(all_nodes)):
+		plt.plot(all_nodes[i][0], all_nodes[i][1], "3c")
+		plt.pause(0.00000000000000000000000000000000000001)
+
+
+	plt.plot(x_path,y_path,"-r")
+	plt.show()
+	plt.pause(3)
+	plt.close('all')
 
 if __name__ == '__main__':
 
 	width = 400
 	height = 250
-	obstacle_map = ObstacleMap(width, height)
+	obstacle_map,plot_x,plot_y = ObstacleMap(width, height)
 
 	start_coord = input("Enter start coordinates: ")
 	start_x, start_y = start_coord.split()
@@ -245,12 +265,12 @@ if __name__ == '__main__':
 		print("In valid start node")
 		exit(-1)
 	
-	goal_coordinates = input("Enter start coordinates: ")
+	goal_coordinates = input("Enter goal coordinates: ")
 	goal_x, goal_y = goal_coordinates.split()
 	goal_x = int(goal_x)
 	goal_y = int(goal_y)
 	if not is_valid(goal_x, goal_y, obstacle_map):
-		print("In valid goal node.")
+		print("In valid goal node")
 		exit(-1)
 	
 	start_node = Node(start_x, start_y, 0.0, -1)
@@ -262,7 +282,9 @@ if __name__ == '__main__':
 	else:
 		print("not found")
 		exit(-1)
-	plot(obstacle_map,x_path,y_path,all_nodes)
+	# plot(obstacle_map,x_path,y_path,all_nodes)
+
+	plot(plot_x,plot_y,start_node,goal_node,x_path,y_path,all_nodes)
 	
 	
 

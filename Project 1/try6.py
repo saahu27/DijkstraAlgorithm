@@ -24,7 +24,7 @@ def ObstacleMap():
 			h5 = y + 0.577*x - 175 
 			h4 = y - 0.577*x + round(55.82) 
 
-			if (l1<=0 and l2>=0 and l3<=0 and l4>=0) or (c<=0) or (h1<=0 and h2<=0 and h3<=0 and h6>=0 and h5>=0 and h4>=0):
+			if ( l3==0 ) :
 				obs_map[x][y] = 1
 				plot_x.append(x)
 				plot_y.append(y)
