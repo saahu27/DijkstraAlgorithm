@@ -91,8 +91,8 @@ def Next_Node(move,x,y,cost):
 
 def ObstacleMap(width,height):
 
-	# obstacle_map = np.full((width,height),np.inf)
-	obstacle_map = np.zeros((width,height))
+	obstacle_map = np.full((width,height),0)
+	#obstacle_map = np.zeros((width,height))
 	plot_x = []
 	plot_y =[]
 
@@ -243,7 +243,7 @@ def plot(plot_x,plot_y,start_node,goal_node,x_path,y_path,all_nodes):
 
 	for i in range(len(all_nodes)):
 		plt.plot(all_nodes[i][0], all_nodes[i][1], "3c")
-		# plt.pause(0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001)
+		# plt.pause(0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001)
 
 	plt.plot(x_path,y_path,"-r")
 	plt.show()
