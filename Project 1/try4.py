@@ -1,6 +1,4 @@
-import sys
-import os
-import argparse
+
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
@@ -46,7 +44,7 @@ def Actionmove_down(x,y,cost):
 def Actionmove_upright(x,y,cost):
 	x = x + 1
 	y = y + 1
-	cost = 1 + cost
+	cost = np.sqrt(2) + cost
 	return x,y,cost
 
 def Actionmove_upleft(x,y,cost):
