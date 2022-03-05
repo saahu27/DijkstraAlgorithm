@@ -1,6 +1,5 @@
 
 import numpy as np
-import cv2
 import matplotlib.pyplot as plt
 import time
 import heapq
@@ -137,15 +136,32 @@ def ObstacleMap(width,height):
 
     for i in range(400):
         map[0][i] = 1
+        map[1][i] = 1
+        map[2][i] = 1
+        map[3][i] = 1
+        map[4][i] = 1
 
     for i in range(400):
         map[249][i] = 1
+        map[248][i] = 1
+        map[247][i] = 1
+        map[246][i] = 1
+        map[245][i] = 1
 
     for i in range(250):
         map[i][0] = 1
+        map[i][1] = 1
+        map[i][2] = 1
+        map[i][3] = 1
+        map[i][4] = 1
 
     for i in range(250):
         map[i][399] = 1
+        map[i][398] = 1
+        map[i][397] = 1
+        map[i][396] = 1
+        map[i][395] = 1
+
     
     return map
 
@@ -183,7 +199,7 @@ def Dijkstra_algorithm(start_node, goal_node,obstacle_map):
     open_nodes = {}
     open_nodes[(start_node.x * 500+ start_node.y)] = start_node
     closed_nodes = {}
-    open_nodes_list = []  #this is also a opennode, created for use in while loop
+    open_nodes_list = []  
     all_nodes = []
     heapq.heappush(open_nodes_list, [start_node.cost, start_node])
 
@@ -199,7 +215,7 @@ def Dijkstra_algorithm(start_node, goal_node,obstacle_map):
             print("Goal Node found")
             return all_nodes,1
 
-        if current_id in closed_nodes:   #need to check
+        if current_id in closed_nodes:  
             continue
         else:
             closed_nodes[current_id] = current_node
@@ -209,7 +225,7 @@ def Dijkstra_algorithm(start_node, goal_node,obstacle_map):
         for move in actions:
             x,y,cost = Next_Node(move,current_node.x,current_node.y,current_node.cost)
 
-            new_node = Node(x,y,cost,current_node)  #currentnode or currentnode id check
+            new_node = Node(x,y,cost,current_node)  
 
             new_node_id = (new_node.x * 500+ new_node.y) 
 
@@ -222,10 +238,11 @@ def Dijkstra_algorithm(start_node, goal_node,obstacle_map):
                 if new_node.cost < open_nodes[new_node_id].cost:
                     open_nodes[new_node_id].cost = new_node.cost
                     open_nodes[new_node_id].parent_id = new_node.parent_id
+                    # heapq.heapreplace(open_nodes_list, [ open_nodes[new_node_id].cost, open_nodes[new_node_id]])
+                    # heapq.heapify(open_nodes_list)
             else:
                 open_nodes[new_node_id] = new_node
-            
-            heapq.heappush(open_nodes_list, [ open_nodes[new_node_id].cost, open_nodes[new_node_id]])
+                heapq.heappush(open_nodes_list, [ open_nodes[new_node_id].cost, open_nodes[new_node_id]])
 
     return  all_nodes,0
 
@@ -276,7 +293,7 @@ if __name__ == '__main__':
     start_x = int(start_x)
     start_y = int(start_y)
     if not is_valid(start_x, start_y, obstacle_map):
-        print("In valid start node")
+        print("In valid start node or start in Obstacle space")
         exit(-1)
     
     goal_coordinates = input("Enter goal coordinates: ")
@@ -284,7 +301,7 @@ if __name__ == '__main__':
     goal_x = int(goal_x)
     goal_y = int(goal_y)
     if not is_valid(goal_x, goal_y, obstacle_map):
-        print("In valid goal node")
+        print("In valid goal node or goal in in Obstacle space")
         exit(-1)
     
     start_node = Node(start_x, start_y, 0.0, -1)
